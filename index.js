@@ -44,9 +44,9 @@ app.post('/searchventbyname',middleware.checkToken,(req,res)=>{
 });
 
 app.post('/searchhospital',middleware.checkToken,(req,res)=>{
-    var name=req.query.Name;//search hospital by name
+    var name=req.body.name;//search hospital by name
     console.log(name);
-    var hospitaldetails=db.collection('hospital').find({'Name':new RegExp(name,'i')}).toArray().then(result=>res.json(result));
+    var hospitaldetails=db.collection('hospital').find({'name':new RegExp(name,'i')}).toArray().then(result=>res.json(result));
 });
 
 app.put('/updateventilator',middleware.checkToken,(req,res)=>{
