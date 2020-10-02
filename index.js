@@ -40,7 +40,7 @@ app.post('/searchventbystatus',middleware.checkToken,(req,res)=>{
 app.post('/searchventbyname',middleware.checkToken,(req,res)=>{
     var name=req.query.name;//by hospital name searching ventilators
     console.log(name);
-    var ventilatordetails=db.collection('ventilator').find({'name':new RegExp(name,'i')}).toArray().then(result=>res.json(result));
+    var ventilatordetails=db.collection('ventilators').find({'name':new RegExp(name,'i')}).toArray().then(result=>res.json(result));
 });
 
 app.post('/searchhospital',middleware.checkToken,(req,res)=>{
@@ -50,7 +50,7 @@ app.post('/searchhospital',middleware.checkToken,(req,res)=>{
 });
 
 app.put('/updateventilator',middleware.checkToken,(req,res)=>{
-    var ventid={ventilatorId:req.body.ventilatorId};//updating ventilator
+    var ventid={vid:req.body.vid};//updating ventilator
     console.log(ventid);
     var newvalues={$set:{status:req.body.status}};
     db.collection("ventilators").updateOne(ventid,newvalues,function(err,result){
@@ -61,7 +61,7 @@ app.put('/updateventilator',middleware.checkToken,(req,res)=>{
 
 app.post('/addventilatorbyuser',middleware.checkToken,(req,res)=>{
     var hID=req.body.hid;//adding ventilator by user
-    var ventilatorId=req.body.ventilatorId;
+    var ventilatorId=req.body.vid;
     var status=req.body.status;
     var name=req.body.name;
     var item={
@@ -74,7 +74,7 @@ app.post('/addventilatorbyuser',middleware.checkToken,(req,res)=>{
 });
 
 app.delete('/delete',middleware.checkToken,(req,res)=>{
-    var myquery=req.query.ventilatorId;
+    var myquery=req.query.vid;
     console.log(myquery);
     var myquery1={ventilatorId:myquery};
     db.collection('ventilators').deleteOne(myquery1,function(err,obj){
